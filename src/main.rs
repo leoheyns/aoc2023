@@ -1,11 +1,11 @@
 use chrono::{FixedOffset, Utc, Datelike};
 use std::env;
-#[path = "day1/day1.rs"]
-mod day1;
+#[path = "day01/day01.rs"]
+mod day01;
 
 fn run_day(day: u32){
     match day{
-        1=>day1::run(),
+        01=>day01::run(),
         _=>println!("Soepkip! die dag bestaat niet",)
     }
 }
