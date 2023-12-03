@@ -4,11 +4,14 @@ use std::env;
 mod day01;
 #[path = "day02/day02.rs"]
 mod day02;
+#[path = "day03/day03.rs"]
+mod day03;
 
 fn run_day(day: u32){
     match day{
         01=>day01::run(),
         02=>day02::run(),
+        03=>day03::run(),
         _=>println!("Soepkip! die dag bestaat niet",)
     }
 }
