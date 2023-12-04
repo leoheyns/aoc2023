@@ -19,8 +19,7 @@ pub fn run() {
                 .unwrap()
                 .split(" | ")
                 .map(|nums| {
-                    nums.split(" ")
-                        .filter(|s| s.len() > 0)
+                    nums.split_whitespace()
                         .map(|num| num.parse::<usize>().unwrap())
                         .collect::<Vec<usize>>()
                 })
