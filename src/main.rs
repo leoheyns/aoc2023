@@ -8,10 +8,13 @@ mod day02;
 mod day03;
 #[path = "day04/day04.rs"]
 mod day04;
+#[path = "day05/day05.rs"]
+mod day05;
 
 fn run_day(day: u32) {
     match day {
         01 => day01::run(),
+        05 => day05::run(),
         02 => day02::run(),
         03 => day03::run(),
         04 => day04::run(),
