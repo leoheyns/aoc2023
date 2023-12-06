@@ -21,21 +21,8 @@ fn process_seed(seed: &usize, xtoymaps: &Vec<Vec<Vec<usize>>>) -> usize {
     return current_num;
 }
 
-// fn process_range(range:&(usize, usize), xtoymaps: &Vec<Vec<Vec<usize>>>) -> Vec<usize>{
-
-//     let mut next_ranges: Vec<(usize, usize)> = vec![];
-
-//     let mut leftover_ranges = vec![*range];
-
-//     for transform_range in xtoymaps[0]{
-//         while
-//     }
-
-//     return next_ranges.iter().flat_map(|range| process_range(range, &xtoymaps[1..].to_owned())).collect::<Vec<usize>>()
-// }
-
 pub fn run() {
-    let mut input = include_str!("input").split("\n\n");
+    let mut input = include_str!("testinput").split("\n\n");
     let seeds = input
         .next()
         .unwrap()
