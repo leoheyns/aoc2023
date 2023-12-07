@@ -12,6 +12,8 @@ mod day04;
 mod day05;
 #[path = "day06/day06.rs"]
 mod day06;
+#[path = "day07/day07.rs"]
+mod day07;
 
 fn run_day(day: u32) {
     match day {
@@ -21,6 +23,7 @@ fn run_day(day: u32) {
         02 => day02::run(),
         03 => day03::run(),
         04 => day04::run(),
+        07 => day07::run(),
         _ => println!("Soepkip! die dag bestaat niet",),
     }
 }
