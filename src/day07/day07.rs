@@ -9,22 +9,41 @@ fn process_hand(hand: &str) -> Vec<usize> {
             .and_modify(|count| *count += 1)
             .or_insert(1);
     }
+    let jacks: usize = *counts.get(&'J').unwrap_or(&0);
+    println!("{}", jacks);
+    counts.remove(&'J');
 
     let mut counts_sorted = counts.values().collect::<BinaryHeap<&usize>>();
 
-    let max = *counts_sorted.pop().unwrap();
+    let max = *counts_sorted.pop().unwrap_or(&0);
     let second_max = *counts_sorted.pop().unwrap_or(&0);
-    let hand_score = if max <= 2 && second_max != 2 {max} else if max == 2 || (max == 3 && second_max != 2) {max + 1} else {max + 2};
+
+    let hand_score = if max + jacks == 1 {
+        1 // high card
+    } else if max + jacks == 2 && second_max != 2 {
+        2 // pair
+    } else if jacks == 0 && max == 2 && second_max == 2 {
+        3 // two pair
+    } else if jacks + max == 3 && second_max != 2 {
+        4 // three of a kind
+    } else if jacks + max == 3 && second_max == 2 {
+        5 // full house
+    } else {
+        jacks + max + 2
+    };
+
+    // let hand_score = if max <= 2 && second_max != 2 {max} else if max == 2 || (max == 3 && second_max != 2) {max + 1} else {max + 2};
     let mut hand_vec = vec![hand_score];
-    hand_vec.extend(hand.chars().map(|char| char.to_digit(10).unwrap_or(
-    match char {
-        'T' => 10,
-        'J' => 11,
-        'Q' => 12,
-        'K' => 13,
-        'A' => 14,
-        _ => 99,
-    }) as usize));
+    hand_vec.extend(hand.chars().map(|char| {
+        char.to_digit(10).unwrap_or(match char {
+            'T' => 10,
+            'J' => 0,
+            'Q' => 12,
+            'K' => 13,
+            'A' => 14,
+            _ => 99,
+        }) as usize
+    }));
 
     hand_vec
 }
@@ -35,13 +54,16 @@ pub fn run() {
         .map(|l| l.split(" ").collect::<Vec<&str>>())
         .map(|l| (process_hand(l[0]), l[1].parse::<usize>().unwrap()))
         .collect::<Vec<(Vec<usize>, usize)>>();
-    
+
     hands.sort_by(|a, b| a.0.cmp(&b.0));
 
-    let part1: usize = hands.iter().map(|hand| hand.1)
-    .enumerate()
-    .map(|(rank, score)| score * (rank + 1)).sum();
-    for hand in hands{
+    let part1: usize = hands
+        .iter()
+        .map(|hand| hand.1)
+        .enumerate()
+        .map(|(rank, score)| score * (rank + 1))
+        .sum();
+    for hand in hands {
         println!("{:?}", hand)
     }
     println!("{}", part1);
