@@ -22,7 +22,7 @@ fn process_seed(seed: &usize, xtoymaps: &Vec<Vec<Vec<usize>>>) -> usize {
 }
 
 pub fn run() {
-    let mut input = include_str!("testinput").split("\n\n");
+    let mut input = include_str!("input").split("\n\n");
     let seeds = input
         .next()
         .unwrap()
