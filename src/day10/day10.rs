@@ -115,7 +115,7 @@ fn get_lefts(from: (usize, usize), to: (usize, usize), pipe: char) -> i32 {
 }
 
 pub fn run() {
-    let mut grid: Vec<Vec<char>> = include_str!("input")
+    let mut grid: Vec<Vec<char>> = include_str!("testinput")
         .lines()
         .map(|l| l.chars().collect::<Vec<char>>())
         .collect();
@@ -191,8 +191,8 @@ pub fn run() {
         .filter(|coord| !path.contains(coord))
         .collect();
 
-    println!("{}", lefts);
-    println!("{:?}", inner_node_init);
+    // println!("{}", lefts);
+    // println!("{:?}", inner_node_init);
 
     let mut print_grid = vec![vec![' '; grid[0].len()]; grid.len()];
 
@@ -211,8 +211,6 @@ pub fn run() {
     // for coord in inner_node_init.clone() {
     //     print_grid[coord.0][coord.1] = '*';
     // }
-
-
 
     //└─┐│┌┘
 
@@ -236,7 +234,7 @@ pub fn run() {
 
     println!("{}", visited_fill.len());
 
-    for coord in visited_fill.clone(){
+    for coord in visited_fill.clone() {
         print_grid[coord.0][coord.1] = '*';
     }
 
