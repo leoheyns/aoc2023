@@ -27,7 +27,10 @@ fn arrangements(springs: String, groups: Vec<usize>) -> usize {
                 }
             } else if springs.len() > i + groups[0] {
                 if spring_chars[i + groups[0]] != '#' {
-                    result += arrangements(springs[(i + groups[0] + 1)..].to_string(), groups[1..].to_vec())
+                    result += arrangements(
+                        springs[(i + groups[0] + 1)..].to_string(),
+                        groups[1..].to_vec(),
+                    )
                 }
             }
         }
@@ -54,18 +57,21 @@ pub fn run() {
         .map(|l| arrangements(l.0.to_string(), l.1))
         .collect::<Vec<usize>>();
 
-        let input2 = include_str!("input")
+    let input2 = include_str!("input")
         .lines()
         .map(|l| l.split(" ").collect::<Vec<&str>>())
         .map(|splt| {
             (
-                vec![splt[0];5].join("?"),
-                std::iter::repeat(splt[1]
-                    .split(",")
-                    .map(|numstring| numstring.parse::<usize>().unwrap())
-                ).take(5).flatten().collect::<Vec<usize>>()
+                vec![splt[0]; 5].join("?"),
+                std::iter::repeat(
+                    splt[1]
+                        .split(",")
+                        .map(|numstring| numstring.parse::<usize>().unwrap()),
+                )
+                .take(5)
+                .flatten()
+                .collect::<Vec<usize>>(),
             )
-
         });
 
     let results2 = input2
@@ -96,5 +102,4 @@ pub fn run() {
     // }
     println!("{}", results.iter().sum::<usize>());
     println!("{}", results2.iter().sum::<usize>())
-
 }
