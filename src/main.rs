@@ -28,6 +28,10 @@ mod day12;
 mod day13;
 #[path = "day14/day14.rs"]
 mod day14;
+#[path = "day15/day15.rs"]
+mod day15;
+#[path = "day16/day16.rs"]
+mod day16;
 
 fn run_day(day: u32) {
     match day {
@@ -42,6 +46,8 @@ fn run_day(day: u32) {
         06 => day06::run(),
         02 => day02::run(),
         03 => day03::run(),
+        15 => day15::run(),
+        16 => day16::run(),
         14 => day14::run(),
         04 => day04::run(),
         07 => day07::run(),
