@@ -46,15 +46,17 @@ impl astar::Astarcontext<State> for Context1 {
                     (Dir::RIGHT, Dir::LEFT) => false,
                     (Dir::UP, Dir::DOWN) => false,
                     (Dir::DOWN, Dir::UP) => false,
-                    _ => true
-
+                    _ => true,
                 }
-                
             {
                 result.push((
                     State {
                         previous: next_dir,
-                        prev_count: if next_dir == state.previous {state.prev_count + 1} else {1},
+                        prev_count: if next_dir == state.previous {
+                            state.prev_count + 1
+                        } else {
+                            1
+                        },
                         y: (state.y as i32 + i) as usize,
                         x: (state.x as i32 + j) as usize,
                     },
@@ -82,7 +84,6 @@ struct Context2 {
     grid: Vec<Vec<u8>>,
 }
 
-
 impl astar::Astarcontext<State> for Context2 {
     fn start(&self) -> State {
         self.start
@@ -101,21 +102,25 @@ impl astar::Astarcontext<State> for Context2 {
                 && (state.x as i32 + j) >= 0
                 && (state.x as i32 + j) < self.grid[0].len() as i32
                 && !(state.prev_count >= 10 && state.previous == next_dir)
-                && (state.prev_count >= 4 || state.previous == next_dir || state.previous == Dir::NONE)
+                && (state.prev_count >= 4
+                    || state.previous == next_dir
+                    || state.previous == Dir::NONE)
                 && match (state.previous, next_dir) {
                     (Dir::LEFT, Dir::RIGHT) => false,
                     (Dir::RIGHT, Dir::LEFT) => false,
                     (Dir::UP, Dir::DOWN) => false,
                     (Dir::DOWN, Dir::UP) => false,
-                    _ => true
-
+                    _ => true,
                 }
-                
             {
                 result.push((
                     State {
                         previous: next_dir,
-                        prev_count: if next_dir == state.previous {state.prev_count + 1} else {1},
+                        prev_count: if next_dir == state.previous {
+                            state.prev_count + 1
+                        } else {
+                            1
+                        },
                         y: (state.y as i32 + i) as usize,
                         x: (state.x as i32 + j) as usize,
                     },
@@ -134,20 +139,21 @@ impl astar::Astarcontext<State> for Context2 {
     }
 
     fn goal(&self, state: &State) -> bool {
-        state.x == (self.grid[0].len() - 1) && state.y == (self.grid.len() - 1) && state.prev_count >= 4
+        state.x == (self.grid[0].len() - 1)
+            && state.y == (self.grid.len() - 1)
+            && state.prev_count >= 4
     }
 }
 
 pub fn run() {
-
     let grid: Vec<Vec<u8>> = include_str!("input")
-    .lines()
-    .map(|l| {
-        l.chars()
-            .map(|chr| chr.to_digit(10).unwrap() as u8)
-            .collect::<Vec<u8>>()
-    })
-    .collect();
+        .lines()
+        .map(|l| {
+            l.chars()
+                .map(|chr| chr.to_digit(10).unwrap() as u8)
+                .collect::<Vec<u8>>()
+        })
+        .collect();
 
     let context = Context1 {
         start: State {
@@ -176,8 +182,4 @@ pub fn run() {
     let (heatloss, _) = astar::a_star(&context);
 
     println!("part 2 {}", heatloss);
-
-
-
-
 }
