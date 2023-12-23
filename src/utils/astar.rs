@@ -10,9 +10,9 @@ where
 {
     fn start(&self) -> State;
 
-    fn neighbours(&self, state: &State) -> Vec<(State, usize)>;
+    fn neighbours(&self, state: &State) -> Vec<(State, isize)>;
 
-    fn heuristic(&self, state: &State) -> usize;
+    fn heuristic(&self, state: &State) -> isize;
 
     fn goal(&self, state: &State) -> bool;
 }
@@ -30,13 +30,13 @@ where
     return result;
 }
 
-pub fn a_star<State>(context: &impl Astarcontext<State>) -> (usize, Vec<State>)
+pub fn a_star<State>(context: &impl Astarcontext<State>) -> (isize, Vec<State>)
 where
     State: Hash + Eq + Copy,
 {
     #[derive(PartialEq, Eq)]
     struct QueueState<T> {
-        prio: usize,
+        prio: isize,
         state: T,
     }
 
@@ -63,11 +63,11 @@ where
     let start = context.start();
     let mut queue: BinaryHeap<QueueState<State>> = BinaryHeap::new();
 
-    let mut gscore: HashMap<State, usize> = HashMap::new();
+    let mut gscore: HashMap<State, isize> = HashMap::new();
 
     gscore.insert(start, 0);
 
-    let mut fscore: HashMap<State, usize> = HashMap::new();
+    let mut fscore: HashMap<State, isize> = HashMap::new();
     fscore.insert(start, context.heuristic(&start));
 
     queue.push(QueueState {
@@ -88,9 +88,9 @@ where
         }
 
         for (neighbour, cost) in context.neighbours(&current) {
-            let tentative_gscore: usize = gscore.get(&current).unwrap() + cost;
+            let tentative_gscore: isize = gscore.get(&current).unwrap() + cost;
 
-            if tentative_gscore < *gscore.get(&neighbour).unwrap_or(&usize::MAX) {
+            if tentative_gscore < *gscore.get(&neighbour).unwrap_or(&isize::MAX) {
                 camefrom.insert(neighbour, current);
                 gscore.insert(neighbour, tentative_gscore);
                 let new_fscore = tentative_gscore + context.heuristic(&neighbour);

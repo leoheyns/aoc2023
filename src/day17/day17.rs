@@ -28,8 +28,8 @@ impl astar::Astarcontext<State> for Context1 {
         self.start
     }
 
-    fn neighbours(&self, state: &State) -> Vec<(State, usize)> {
-        let mut result: Vec<(State, usize)> = vec![];
+    fn neighbours(&self, state: &State) -> Vec<(State, isize)> {
+        let mut result: Vec<(State, isize)> = vec![];
         for (i, j, next_dir) in [
             (-1, 0, Dir::UP),
             (1, 0, Dir::DOWN),
@@ -61,16 +61,16 @@ impl astar::Astarcontext<State> for Context1 {
                         x: (state.x as i32 + j) as usize,
                     },
                     self.grid[(state.y as i32 + i) as usize][(state.x as i32 + j) as usize]
-                        as usize,
+                        as isize,
                 ));
             }
         }
         return result;
     }
 
-    fn heuristic(&self, state: &State) -> usize {
+    fn heuristic(&self, state: &State) -> isize {
         let h = self.grid.len() - state.y - 1 + self.grid[0].len() - state.x - 1;
-        return h;
+        return h as isize;
         // return 0
     }
 
@@ -89,8 +89,8 @@ impl astar::Astarcontext<State> for Context2 {
         self.start
     }
 
-    fn neighbours(&self, state: &State) -> Vec<(State, usize)> {
-        let mut result: Vec<(State, usize)> = vec![];
+    fn neighbours(&self, state: &State) -> Vec<(State, isize)> {
+        let mut result: Vec<(State, isize)> = vec![];
         for (i, j, next_dir) in [
             (-1, 0, Dir::UP),
             (1, 0, Dir::DOWN),
@@ -125,16 +125,16 @@ impl astar::Astarcontext<State> for Context2 {
                         x: (state.x as i32 + j) as usize,
                     },
                     self.grid[(state.y as i32 + i) as usize][(state.x as i32 + j) as usize]
-                        as usize,
+                        as isize,
                 ));
             }
         }
         return result;
     }
 
-    fn heuristic(&self, state: &State) -> usize {
+    fn heuristic(&self, state: &State) -> isize {
         let h = self.grid.len() - state.y - 1 + self.grid[0].len() - state.x - 1;
-        return h;
+        return h as isize;
         // return 0
     }
 

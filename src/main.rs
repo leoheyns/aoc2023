@@ -38,6 +38,14 @@ mod day17;
 mod day18;
 #[path = "day19/day19.rs"]
 mod day19;
+#[path = "day20/day20.rs"]
+mod day20;
+#[path = "day21/day21.rs"]
+mod day21;
+#[path = "day22/day22.rs"]
+mod day22;
+#[path = "day23/day23.rs"]
+mod day23;
 
 fn run_day(day: u32) {
     match day {
@@ -48,9 +56,12 @@ fn run_day(day: u32) {
         10 => day10::run(),
         11 => day11::run(),
         13 => day13::run(),
+        22 => day22::run(),
+        23 => day23::run(),
         01 => day01::run(),
         05 => day05::run(),
         06 => day06::run(),
+        21 => day21::run(),
         17 => day17::run(),
         02 => day02::run(),
         18 => day18::run(),
@@ -60,6 +71,7 @@ fn run_day(day: u32) {
         14 => day14::run(),
         04 => day04::run(),
         07 => day07::run(),
+        20 => day20::run(),
         _ => println!("Soepkip! die dag bestaat niet",),
     }
 }

@@ -117,11 +117,10 @@ pub fn run() {
         workflow: &str,
         rules_dict: &HashMap<&str, Vec<Instr<'_>>>,
     ) -> u64 {
-
         if workflow == "A" {
             let valid_part_count = part_range
-            .iter()
-            .fold(1, |current, range| current * (range.1 - range.0));
+                .iter()
+                .fold(1, |current, range| current * (range.1 - range.0));
             return valid_part_count;
         } else if workflow == "R" {
             return 0;
@@ -133,40 +132,55 @@ pub fn run() {
             .iter()
             .fold((part_range.clone(), 0), |(pr, result), instr| match instr {
                 Instr::COND(val_index, BoolOp::GT, comp_value, dest) => {
-                    if pr[*val_index as usize].1 > (*comp_value + 1){
+                    if pr[*val_index as usize].1 > (*comp_value + 1) {
                         let mut true_range = pr.clone();
                         let mut false_range = pr.clone();
 
-                        true_range[*val_index as usize].0 = std::cmp::max(*comp_value + 1, true_range[*val_index as usize].0);
-                        false_range[*val_index as usize].1 = std::cmp::max(std::cmp::min(*comp_value + 1, false_range[*val_index as usize].1),false_range[*val_index as usize].0);
-                        
+                        true_range[*val_index as usize].0 =
+                            std::cmp::max(*comp_value + 1, true_range[*val_index as usize].0);
+                        false_range[*val_index as usize].1 = std::cmp::max(
+                            std::cmp::min(*comp_value + 1, false_range[*val_index as usize].1),
+                            false_range[*val_index as usize].0,
+                        );
 
-                        (false_range, result + process_range(true_range, dest, rules_dict))
+                        (
+                            false_range,
+                            result + process_range(true_range, dest, rules_dict),
+                        )
                     } else {
                         (pr, result)
                     }
                 }
                 Instr::COND(val_index, BoolOp::LT, comp_value, dest) => {
-                    if pr[*val_index as usize].0 < *comp_value{
+                    if pr[*val_index as usize].0 < *comp_value {
                         let mut true_range = pr.clone();
                         let mut false_range = pr.clone();
-                        
-                        true_range[*val_index as usize].1 = std::cmp::min(*comp_value, true_range[*val_index as usize].1);
-                        false_range[*val_index as usize].0 = std::cmp::min(std::cmp::max(*comp_value, false_range[*val_index as usize].0), false_range[*val_index as usize].1);
 
+                        true_range[*val_index as usize].1 =
+                            std::cmp::min(*comp_value, true_range[*val_index as usize].1);
+                        false_range[*val_index as usize].0 = std::cmp::min(
+                            std::cmp::max(*comp_value, false_range[*val_index as usize].0),
+                            false_range[*val_index as usize].1,
+                        );
 
-                        (false_range, result + process_range(true_range, dest, rules_dict))
+                        (
+                            false_range,
+                            result + process_range(true_range, dest, rules_dict),
+                        )
                     } else {
                         (pr, result)
-                    }                }
-                Instr::GOTO(dest) => {
-                (vec![(0 as u64,0 as u64);4], result + process_range(pr, dest, rules_dict))},
-            }).1;
+                    }
+                }
+                Instr::GOTO(dest) => (
+                    vec![(0 as u64, 0 as u64); 4],
+                    result + process_range(pr, dest, rules_dict),
+                ),
+            })
+            .1;
     }
 
-    let parts_range: Vec<(u64, u64)> = vec![(1,4001), (1,4001), (1,4001), (1,4001)];
+    let parts_range: Vec<(u64, u64)> = vec![(1, 4001), (1, 4001), (1, 4001), (1, 4001)];
     let part2 = process_range(parts_range, "in", &rules_dict);
 
     println!("part 2 {}", part2);
-
 }
