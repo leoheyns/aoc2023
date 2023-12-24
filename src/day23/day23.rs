@@ -1,19 +1,37 @@
-use std::{collections::{HashMap, HashSet}, vec};
+use std::{
+    collections::{HashMap, HashSet},
+    vec,
+};
 
-fn findlongest(node: (usize, usize), end:(usize, usize), edges: &HashMap<(usize, usize), Vec<((usize, usize), usize)>>) -> usize{
-    if node == end{
+fn findlongest(
+    node: (usize, usize),
+    end: (usize, usize),
+    edges: &HashMap<(usize, usize), Vec<((usize, usize), usize)>>,
+) -> usize {
+    if node == end {
         return 0;
     }
-    return edges.get(&node).unwrap().iter().map(|(next_node, cost)| cost + findlongest(*next_node, end, edges)).max().unwrap();
+    return edges
+        .get(&node)
+        .unwrap()
+        .iter()
+        .map(|(next_node, cost)| cost + findlongest(*next_node, end, edges))
+        .max()
+        .unwrap();
 }
 
-fn dfs_longest(node: (usize, usize), end:(usize, usize), edges: &HashMap<(usize, usize), Vec<((usize, usize), usize)>>, visited: HashSet<(usize, usize)>) -> usize{
-    if node == end{
+fn dfs_longest(
+    node: (usize, usize),
+    end: (usize, usize),
+    edges: &HashMap<(usize, usize), Vec<((usize, usize), usize)>>,
+    visited: HashSet<(usize, usize)>,
+) -> usize {
+    if node == end {
         return 0;
     }
     let mut current_max = 0;
-    for (to, cost) in edges.get(&node).unwrap(){
-        if !visited.contains(to){
+    for (to, cost) in edges.get(&node).unwrap() {
+        if !visited.contains(to) {
             let mut next_visited = visited.clone();
             next_visited.insert(*to);
             let to_cost = dfs_longest(*to, end, edges, next_visited) + cost;
@@ -52,7 +70,7 @@ pub fn run() {
         }
     }
     let start = (0, 1);
-    let end = (grid.len()-1, grid[0].len() - 2);
+    let end = (grid.len() - 1, grid[0].len() - 2);
     nodes.insert(start);
     nodes.insert(end);
 
@@ -84,11 +102,14 @@ pub fn run() {
                     }
                 }
             }
-            if !edges.contains_key(node){
+            if !edges.contains_key(node) {
                 edges.insert(*node, vec![]);
             }
             // edges.insert(*node, (current_coord, edge_length));
-            edges.get_mut(node).unwrap().push((current_coord, edge_length + 1))
+            edges
+                .get_mut(node)
+                .unwrap()
+                .push((current_coord, edge_length + 1))
         }
     }
 
@@ -97,16 +118,16 @@ pub fn run() {
 
     let mut new_edges: Vec<((usize, usize), (usize, usize), usize)> = vec![];
 
-    for (from, tos) in &edges{
-        for (to, cost) in tos{
+    for (from, tos) in &edges {
+        for (to, cost) in tos {
             new_edges.push((*to, *from, *cost));
         }
     }
 
     let mut symedges = edges.clone();
 
-    for (from, to, cost) in new_edges{
-        if from != end{
+    for (from, to, cost) in new_edges {
+        if from != end {
             symedges.get_mut(&from).unwrap().push((to, cost))
         }
     }
@@ -114,6 +135,4 @@ pub fn run() {
     let part2 = dfs_longest(start, end, &symedges, HashSet::from([start]));
 
     println!("part 2 {}", part2);
-
-
 }
