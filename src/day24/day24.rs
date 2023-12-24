@@ -1,3 +1,5 @@
+use std::ops::Add;
+
 #[derive(Debug)]
 struct Coord {
     x: f64,
@@ -23,14 +25,14 @@ fn hail_collides(stone_1: &Hailstone, stone_2: &Hailstone, bounds: (f64, f64)) -
 
     let ua = numerator / denominator;
 
-    let numerator = stone_1.speed.x * (stone_2.pos.y - stone_1.pos.y)
-    - stone_2.speed.y * (stone_2.pos.x - stone_1.pos.x);
+    let numerator = stone_1.speed.x * (stone_1.pos.y - stone_2.pos.y)
+    - stone_1.speed.y * (stone_1.pos.x - stone_2.pos.x);
 
-    let denominator = stone_1.speed.y * stone_2.speed.x - stone_1.speed.x * stone_2.speed.y;
+    // let denominator = stone_1.speed.y * stone_2.speed.x - stone_1.speed.x * stone_2.speed.y;
 
     let ub = numerator / denominator;
 
-    if ua < 0.0 || ub < 0.0 {
+    if ua < -0.001 || ub < -0.001 {
         return false; //crossing in the past
     }
 
@@ -88,4 +90,31 @@ pub fn run() {
     println!("{}", total);
 
     println!("{}", colisions);
+
+    println!(
+"(declare-const rpx Int)
+(declare-const rpy Int)
+(declare-const rpz Int)
+(declare-const rsx Int)
+(declare-const rsy Int)
+(declare-const rsz Int)");
+
+
+    for i in 0..6{
+        println!("(declare-const t{i} Int)")
+    }
+
+    for i in 0..6{
+        println!("(assert (= (+ rpx (* rsx t{i})) (+ {} (* {} t{i})) ))", hailstones[i].pos.x, hailstones[i].speed.x);
+        println!("(assert (= (+ rpy (* rsy t{i})) (+ {} (* {} t{i})) ))", hailstones[i].pos.y, hailstones[i].speed.y);
+        println!("(assert (= (+ rpz (* rsz t{i})) (+ {} (* {} t{i})) ))", hailstones[i].pos.z, hailstones[i].speed.z);
+
+    }
+
+    println!(
+"(check-sat)
+(get-model)");
+
+println!();
+println!("{}", 434470227085520 as usize+164429529509188+309721960025816)
 }
