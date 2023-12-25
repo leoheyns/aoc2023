@@ -48,6 +48,8 @@ mod day22;
 mod day23;
 #[path = "day24/day24.rs"]
 mod day24;
+#[path = "day25/day25.rs"]
+mod day25;
 
 fn run_day(day: u32) {
     match day {
@@ -75,6 +77,7 @@ fn run_day(day: u32) {
         04 => day04::run(),
         07 => day07::run(),
         20 => day20::run(),
+        25 => day25::run(),
         _ => println!("Soepkip! die dag bestaat niet",),
     }
 }
@@ -89,7 +92,7 @@ fn main() {
     if args.len() == 2 {
         day = args[1].parse::<u32>().unwrap()
     }
-    if day < 25 && day > 0 {
+    if day <= 25 && day > 0 {
         run_day(day);
     }
 }

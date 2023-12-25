@@ -1,5 +1,3 @@
-use std::ops::Add;
-
 #[derive(Debug)]
 struct Coord {
     x: f64,
@@ -26,7 +24,7 @@ fn hail_collides(stone_1: &Hailstone, stone_2: &Hailstone, bounds: (f64, f64)) -
     let ua = numerator / denominator;
 
     let numerator = stone_1.speed.x * (stone_1.pos.y - stone_2.pos.y)
-    - stone_1.speed.y * (stone_1.pos.x - stone_2.pos.x);
+        - stone_1.speed.y * (stone_1.pos.x - stone_2.pos.x);
 
     // let denominator = stone_1.speed.y * stone_2.speed.x - stone_1.speed.x * stone_2.speed.y;
 
@@ -74,15 +72,15 @@ pub fn run() {
                 y: hail_vec[1][1],
                 z: hail_vec[1][2],
             },
-        }).collect();
-
+        })
+        .collect();
 
     let mut colisions = 0;
     let mut total = 0;
-    for i in 0..(hailstones.len() - 1){
-        for j in (i + 1)..hailstones.len(){
+    for i in 0..(hailstones.len() - 1) {
+        for j in (i + 1)..hailstones.len() {
             total += 1;
-            if hail_collides(&hailstones[i], &hailstones[j], bounds){
+            if hail_collides(&hailstones[i], &hailstones[j], bounds) {
                 colisions += 1;
             }
         }
@@ -92,29 +90,41 @@ pub fn run() {
     println!("{}", colisions);
 
     println!(
-"(declare-const rpx Int)
+        "(declare-const rpx Int)
 (declare-const rpy Int)
 (declare-const rpz Int)
 (declare-const rsx Int)
 (declare-const rsy Int)
-(declare-const rsz Int)");
+(declare-const rsz Int)"
+    );
 
-
-    for i in 0..6{
+    for i in 0..6 {
         println!("(declare-const t{i} Int)")
     }
 
-    for i in 0..6{
-        println!("(assert (= (+ rpx (* rsx t{i})) (+ {} (* {} t{i})) ))", hailstones[i].pos.x, hailstones[i].speed.x);
-        println!("(assert (= (+ rpy (* rsy t{i})) (+ {} (* {} t{i})) ))", hailstones[i].pos.y, hailstones[i].speed.y);
-        println!("(assert (= (+ rpz (* rsz t{i})) (+ {} (* {} t{i})) ))", hailstones[i].pos.z, hailstones[i].speed.z);
-
+    for i in 0..6 {
+        println!(
+            "(assert (= (+ rpx (* rsx t{i})) (+ {} (* {} t{i})) ))",
+            hailstones[i].pos.x, hailstones[i].speed.x
+        );
+        println!(
+            "(assert (= (+ rpy (* rsy t{i})) (+ {} (* {} t{i})) ))",
+            hailstones[i].pos.y, hailstones[i].speed.y
+        );
+        println!(
+            "(assert (= (+ rpz (* rsz t{i})) (+ {} (* {} t{i})) ))",
+            hailstones[i].pos.z, hailstones[i].speed.z
+        );
     }
 
     println!(
-"(check-sat)
-(get-model)");
+        "(check-sat)
+(get-model)"
+    );
 
-println!();
-println!("{}", 434470227085520 as usize+164429529509188+309721960025816)
+    println!();
+    println!(
+        "{}",
+        434470227085520 as usize + 164429529509188 + 309721960025816
+    )
 }

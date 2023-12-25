@@ -86,13 +86,28 @@ pub fn run() {
     let mut low_pulses = 0;
     let mut high_pulses = 0;
 
-    let final_cj = modules.iter().filter(|(_,m)| if m.targets.len() > 0 {m.targets[0] == "rx"} else {false}).next().unwrap();
+    let final_cj = modules
+        .iter()
+        .filter(|(_, m)| {
+            if m.targets.len() > 0 {
+                m.targets[0] == "rx"
+            } else {
+                false
+            }
+        })
+        .next()
+        .unwrap();
 
     let mut cycle_lengths: HashMap<&str, usize> = HashMap::new();
 
     let mut i = 0;
 
-    while !conjunction_states.get(final_cj.0).unwrap().iter().all(|(from, _)|cycle_lengths.contains_key(from)) {
+    while !conjunction_states
+        .get(final_cj.0)
+        .unwrap()
+        .iter()
+        .all(|(from, _)| cycle_lengths.contains_key(from))
+    {
         i += 1;
         // println!();
         pulse_queue.push_back((Pulse::LOW, "broadcaster", "button"));
